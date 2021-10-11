@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block barlogout %}<a class="dropdown-item" style="color: brown;" href="{% url 'user:loggout' %}">Logout</a>{% endblock %}
+
+{% block username %}
+    {% if user.photo %}
+    <img src="{{user.photo}}" alt="..." class="img-thumbnail">
+    {% else %}
+    <img src="{% static 'profile_photos/no_user.png' %}" alt="..." width="30px" height="30px" style="border-radius: 50%;" class="img-thumbnail">
+    {% endif %}
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div style="margin-top: 10px;">
+        {% if messages %}
+	<ul class="messages" style="margin-right: 30px">
+	  {% for message in messages %}
+		<div class="alert {% if message.tags %} alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show"{% endif %} id="alert-msg"  role="alert">
+		  <strong></strong> {{message}}
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+		</div>
+	  {% endfor %}
+    </ul>
+    {% endif %}
+    <h3>Password update</h3>
+    <form action="" method="post">{% csrf_token %}
+        {{form|crispy}}
+        <!-- <input type="password" placeholder="Old password" name="old_password" class="form-control" autocomplete="current-password" autofocus required id="id_old_password"></p>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" onclick="showPassOne()">
+            <label class="form-check-label" for="defaultCheck1">
+              Mostrar Senha
+            </label>
+          </div>
+        <input type="password" name="new_password1" placeholder="New password" class="form-control" autocomplete="new-password" required id="id_new_password1"> <span class="helptext"><ul><li>Your password can’t be too similar to your other personal information.</li><li>Your password must contain at least 8 characters.</li><li>Your password can’t be a commonly used password.</li><li>Your password can’t be entirely numeric.</li></ul></span></p>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" onclick="showPassTwo()">
+            <label class="form-check-label" for="defaultCheck1">
+              Mostrar Senha
+            </label>
+          </div>
+        <input type="password" placeholder="New password confirmation" class="form-control" name="new_password2" autocomplete="new-password" required id="id_new_password2"></p>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" onclick="showPassThree()">
+            <label class="form-check-label" for="defaultCheck1">
+              Mostrar Senha
+            </label>
+          </div> -->
+        <div style="text-align: right;">
+            <input type="submit" class="btn btn-dark" value="Edit">
+        </div>
+    </form>
+
+</div>
+
+</div>
+
+<!-- <script>
+    function showPassOne() {
+var x = document.getElementById("id_old_password");
+if (x.type === "password") {
+x.type = "text";
+} else {
+x.type = "password";
+}
+}
+
+function showPassTwo() {
+var x = document.getElementById("id_new_password1");
+if (x.type === "password") {
+x.type = "text";
+} else {
+x.type = "password";
+}
+}
+
+function showPassThree() {
+var x = document.getElementById("id_new_password2");
+if (x.type === "password") {
+x.type = "text";
+} else {
+x.type = "password";
+}
+}
+</script> -->
+
+{% endblock %}

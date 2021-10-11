@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block barlogout %}<a class="dropdown-item" style="color: brown;" href="{% url 'user:loggout' %}">Logout</a>{% endblock %}
+{% block username %}
+    {% if user.photo %}
+    <img src="{{user.photo}}" alt="..." class="img-thumbnail">
+    {% else %}
+    <img src="{% static 'profile_photos/no_user.png' %}" alt="..." width="30px" height="30px" style="border-radius: 50%;" class="img-thumbnail">
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container" style="margin-bottom: 20%;">
+    <div style="margin-top: 10px;">
+    <h3>{{categorys.name}}</h3>
+    <div class="list-group">
+        {% for post in categorys.post.all %}
+        <a href="/main/category/post/{{post.id}}" class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{post.name}}</h5>
+            <small>created in: {{post.added}}</small>
+          </div>
+          <div class="d-flex w-100 justify-content-between">
+            <p class="mb-1">{{post.description|truncatechars:100}}</p>
+            <small>updated in: {{post.update}}</small>
+          </div>
+          <div class="d-flex w-100 justify-content-between">
+          <small>{% if post.user.photo %}
+              <img src="{{post.user.photo}}" alt="..." class="img-thumbnail">
+              {% else %}
+              <img src="{% static 'profile_photos/no_user.png' %}" alt="..." width="30px" height="30px" style="border-radius: 50%;" class="img-thumbnail">
+              {% endif %}
+              {{post.user.username}}</small>
+              {% if post.user.id == user.id %}
+                      <a href="/main/category/post/postdelete/{{post.id}}" class="btn btn-danger btn-lg float-right">Delete</a>
+                      {% endif %}
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    
+
+    
+</div>
+
+
+
+{% endblock %}

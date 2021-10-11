@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}Add post{% endblock %}
+{% block barlogout %}<a class="dropdown-item" style="color: brown;" href="{% url 'user:loggout' %}">Logout</a>{% endblock %}
+{% block style %}
+
+    <style>
+        .asteriskField {
+    display: none;
+}
+    </style>
+{% endblock %}
+{% block username %}
+    {% if user.photo %}
+    <img src="{{user.photo}}" alt="..." class="img-thumbnail">
+    {% else %}
+    <img src="{% static 'profile_photos/no_user.png' %}" alt="..." width="30px" height="30px" style="border-radius: 50%;" class="img-thumbnail">
+    {% endif %}
+{% endblock %}
+{% block content %}
+    <div class="container" style="margin-bottom: 20%;">
+        <div style="margin-top: 10px;">
+            <h3>Add post</h3>
+            <form action="" enctype="multipart/form-data" method="post">{% csrf_token %}
+                {{form|crispy}}
+                <div style="text-align: right;">
+                    <input type="submit" class="btn btn-dark" value="Edit">
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
