@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block barlogout %}<a class="dropdown-item" style="color: brown;" href="{% url 'user:loggout' %}">Logout</a>{% endblock %}
+
+{% block username %}
+    {% if user.photo %}
+    <img src="{{user.photo}}" alt="..." class="img-thumbnail">
+    {% else %}
+    <img src="{% static 'profile_photos/no_user.png' %}" alt="..." width="30px" height="30px" style="border-radius: 50%;" class="img-thumbnail">
+    {% endif %}
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div style="margin-top: 10px;">
+    <h3>Profile update</h3>
+    <form action="" method="post">{% csrf_token %}
+        {{form|crispy}}
+        <!-- <p><label for=""><strong>Username</strong></label><input type="text" placeholder="Username" name="username" class="form-control" value="{{user.username}}" maxlength="150" required id="id_username"> <span class="helptext">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</span></p>
+        <p><label for=""><strong>Email address</strong></label><input type="email" placeholder="Email address" name="email" class="form-control" value="{{user.email}}" maxlength="254" id="id_email"></p>
+        <strong>No password set.</strong>
+        <span class="helptext">Raw passwords are not stored, so there is no way to see this user’s password, but you can change the password using <a href="../password/">this form</a>.</span></p> -->
+        <div style="text-align: right;">
+          <input type="submit" class="btn btn-dark" value="Edit">
+      </div>
+    </form>
+
+</div>
+
+</div>
+
+{% endblock %}

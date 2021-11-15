@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}register{% endblock %}
+{% block search %}readonly{% endblock %}
+{% block buttonsearch %}disabled{% endblock %}
+{% block style %}
+    <style>
+        .asteriskField {
+            display: none;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container" style="margin-bottom: 20%;">
+      
+        <div style="margin-top: 5%;">
+          <h3>Register</h3>
+            {% if messages %}
+	<ul class="messages" style="margin-right: 30px">
+	  {% for message in messages %}
+		<div class="alert {% if message.tags %} alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show"{% endif %} id="alert-msg"  role="alert">
+		  <strong></strong> {{message}}
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+		</div>
+	  {% endfor %}
+    </ul>
+    {% endif %}
+        <form action="" enctype="multipart/form-data" method="post">{% csrf_token %}
+          {{form|crispy}}
+<div style="text-align: right;">
+  <input type="submit" class="btn btn-dark" value="Sign up">
+</div>
+        </form>
+    </div>
+    </div>
+
+
+{% endblock %}

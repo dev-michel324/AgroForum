@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block barlogout %}<a class="dropdown-item" style="color: brown;" href="{% url 'user:loggout' %}">Logout</a>{% endblock %}
+{% block style%}{% if not user.is_authenticated %}<meta http-equiv="refresh" content="0 URL='/'"/>{% endif %}{% endblock %}
+
+{% block username %}
+    {% if user.photo %}
+    <img src="{{user.photo}}" alt="..." class="img-thumbnail">
+    {% else %}
+    <img src="{% static 'profile_photos/no_user.png' %}" alt="..." width="30px" height="30px" style="border-radius: 50%;" class="img-thumbnail">
+    {% endif %}
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div style="margin-top: 10px;">
+        {% if messages %}
+	<ul class="messages" style="margin-right: 30px">
+	  {% for message in messages %}
+		<div class="alert {% if message.tags %} alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show"{% endif %} id="alert-msg"  role="alert">
+		  <strong></strong> {{message}}
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+		</div>
+	  {% endfor %}
+    </ul>
+    {% endif %}
+    <h3>Profile</h3>
+    <div class="row">
+        <div class="col-sm-2">
+            {% if user.photo %}
+    <img src="{{user.photo}}" alt="..." class="img-thumbnail ms-auto">
+    {% else %}
+    <img src="{% static 'profile_photos/no_user.png' %}" alt="..." width="90px" height="90px" style="border-radius: 50%;" class="img-thumbnail">
+    {% endif %}
+        </div>
+        <div class="col-sm-9">
+            <ul class="list-group list-group-flush" style="border: none;">
+                <li class="list-group-item"><strong>Username: </strong>{{user.username}}</li>
+                <li class="list-group-item"><strong>Email: </strong>{{user.email}}</li>
+                <li class="list-group-item"><strong>Type: </strong>{{user.type}}</li>
+                <li class="list-group-item"><strong>Password criptografed: </strong>{{user.password|truncatechars:30}}</li>
+                <div style="text-align: right; margin-top: 10px;">
+                    <a href="/edit/profile/"><button type="button" class="btn btn-secondary">Edit</button></a>
+                </div>
+              </ul>
+        </div>
+
+</div>
+
+</div>
+
+{% endblock %}
