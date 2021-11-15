@@ -25,15 +25,15 @@ class Categorys(models.Model):
         return self.name
 
 class Post(models.Model):
-    id = models.BigIntegerField(unique=True, primary_key=True)
+    # id = models.BigIntegerField(unique=True, primary_key=True)
+    id = models.BigAutoField(unique=True, primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     category = models.ForeignKey(Categorys, related_name='post', null=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    # slug = models.SlugField(max_length=255, blank=True, unique=True)
     description = models.TextField()
     image = models.ImageField(upload_to='static/image_post', blank=True)
-    added = models.DateField(auto_now_add=True, blank=True, null=True)
-    update = models.DateField(auto_now=True, blank=True, null=True)
+    added = models.DateField(auto_now_add=True, null=True)
+    update = models.DateField(auto_now=True, null=True)
 
     def __str__(self):
         return self.name

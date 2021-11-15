@@ -37,7 +37,7 @@
         <div class="col-9">
           <div class="list-group">
             {% for category in categorys %}
-            <a href="/main/category/{{category.slug}}" class="list-group-item list-group-item-action flex-column align-items-start">
+            <a href="/main/category/{{category.id}}" class="list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
                   <h5 class="mb-1">{{category.name}}</h5>
                   <small>Created in: {{category.created}}</small>

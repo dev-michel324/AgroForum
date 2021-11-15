@@ -12,7 +12,8 @@
 {% block content %}
 <div class="container" style="margin-bottom: 20%;">
     <div style="margin-top: 10px;">
-    <h3>{{categorys.name}}</h3>
+    {% if categorys.post.all %}
+    <h3>{{categorys.name}} - <span style="color: grey;">quantity: {{categorys.post.count}}</span></h3>
     <div class="list-group">
         {% for post in categorys.post.all %}
         <a href="/main/category/post/{{post.id}}" class="list-group-item list-group-item-action flex-column align-items-start">
@@ -37,6 +38,10 @@
             </div>
         </a>
         {% endfor %}
+        {% else %}
+        <h3>{{categorys.name}}</h3>
+        <h5 style="color: grey;">Don't have posts.</h5>
+        {% endif %}
     </div>
     
 

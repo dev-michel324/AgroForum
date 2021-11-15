@@ -24,19 +24,3 @@ class PostComment(forms.Form):
         required=False,
         widget=forms.Textarea(),
         )
-    
-    # category = forms.ModelMultipleChoiceField(queryset=Categorys.objects.all(), widget=forms.CheckboxSelectMultiple)
-    
-    # name = models.CharField(max_length=255, required=True)
-
-    # name.widget.attrs.update
-
-
-# user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     category = models.ManyToManyField(Categorys)
-#     name = models.CharField(max_length=255)
-#     slug = models.SlugField(max_length=255)
-#     description = models.TextField()
-#     image = models.ImageField(upload_to='static/image_post', blank=True)
-#     added = models.DateField(auto_now_add=True)
-#     update = models.DateField(auto_now=True)

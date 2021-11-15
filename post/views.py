@@ -3,7 +3,8 @@ from django.http.response import Http404, HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render, resolve_url
 from django import http
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect, request
 from django.contrib import messages
 from django.views.generic import DetailView
 
@@ -11,6 +12,7 @@ from .models import *
 from .forms import PostComment, PostForm
 
 # Create your views here.
+@login_required(login_url='/')
 def posts(request):
     if request.user.is_authenticated:
         categorys = Categorys.objects.all()
@@ -25,6 +27,7 @@ def posts(request):
     messages.error(request, 'You cant access.')
     return HttpResponseRedirect('/')
 
+@login_required(login_url='/')
 def profile(request):
     if request.user.is_authenticated:
         posts = Post.objects.all()
@@ -38,6 +41,7 @@ def profile(request):
     messages.error(request, 'Join to access the page.')
     return HttpResponseRedirect('/')
 
+@login_required(login_url='/')
 def add_post(request):
     if request.user.is_authenticated:
         posts = Post.objects.all()
@@ -63,9 +67,12 @@ def add_post(request):
     messages.error(request, 'You cant access.')
     return HttpResponseRedirect('/')
 
-class CategoryDetailView(DetailView):
-    model = Categorys
+@login_required(login_url='/')
+def Category(request, id: int):
+    categorys = Categorys.objects.get(id=id)
+    return render(request, 'post/categorys_detail.html', {'categorys': categorys})
 
+@login_required(login_url='/')
 def PostView(request, id):
     form = PostComment()
     if request.user.is_authenticated:
@@ -94,15 +101,17 @@ def PostView(request, id):
     # return render(request, 'post/post_detail.html', {'post': post})
     return HttpResponseRedirect('/')
 
-def PostDelete(request, id):
-    post = get_object_or_404(Post, pk=id)
-    if post.user.id == request.user.id:
-        post.delete()
-        messages.info(request, 'Post deleted with success.')
+@login_required(login_url='/')
+def PostDelete(request, id: int):
+        post = get_object_or_404(Post, pk=id)
+        if post.user.id == request.user.id:
+            post.delete()
+            messages.info(request, 'Post deleted with success.')
+            return HttpResponseRedirect('/')
+        messages.error(request, 'You dont have permission to delete this post.')
         return HttpResponseRedirect('/')
-    messages.error(request, 'You dont have permission to delete this post.')
-    return HttpResponseRedirect('/')
 
+@login_required(login_url='/')
 def CommentDelete(request, id):
     comment = get_object_or_404(Comment, pk=id)
     if comment.user.id == request.user.id:
